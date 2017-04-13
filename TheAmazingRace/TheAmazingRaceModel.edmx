@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AmazingRaceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="254" />
+          <Property Name="Description" Type="nvarchar" MaxLength="254" />
+          <Property Name="Country" Type="nvarchar" MaxLength="254" />
+          <Property Name="City" Type="nvarchar" MaxLength="254" />
+          <Property Name="EventStart" Type="datetime" />
+          <Property Name="EventEnd" Type="datetime" />
+          <Property Name="TotalPitStops" Type="numeric" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="int" Nullable="false" />
+          <Property Name="MemberName" Type="nvarchar" MaxLength="254" />
+          <Property Name="TeamID" Type="int" />
+          <Property Name="ProfilePhoto" Type="bit" />
+          <Property Name="ContactNo" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Email" Type="nvarchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="PitStop">
+          <Key>
+            <PropertyRef Name="StopID" />
+          </Key>
+          <Property Name="StopID" Type="int" Nullable="false" />
+          <Property Name="EventID" Type="int" Nullable="false" />
+          <Property Name="StopName" Type="nvarchar" MaxLength="254" />
+          <Property Name="StopOrder" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="Location" Type="nvarchar" MaxLength="254" />
+          <Property Name="StaffID" Type="int" />
+        </EntityType>
+        <EntityType Name="StaffDetalis">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="int" Nullable="false" />
+          <Property Name="StaffCode" Type="nvarchar" MaxLength="254" />
+          <Property Name="StaffName" Type="nvarchar" MaxLength="254" />
+        </EntityType>
+        <EntityType Name="TaskDetails">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="EventID" Type="int" />
+          <Property Name="StopID" Type="int" />
+          <Property Name="TeamID" Type="int" />
+          <Property Name="TaskStartTime" Type="datetime" />
+          <Property Name="TaskEndTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TeamMaster">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="int" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="254" />
+          <Property Name="EventID" Type="int" />
+          <Property Name="StaffID" Type="int" />
+        </EntityType>
+        <EntityContainer Name="AmazingRaceModelStoreContainer">
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PitStop" EntityType="Self.PitStop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaffDetalis" EntityType="Self.StaffDetalis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaskDetails" EntityType="Self.TaskDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TeamMaster" EntityType="Self.TeamMaster" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AmazingRaceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="EventStart" Type="DateTime" Precision="3" />
+          <Property Name="EventEnd" Type="DateTime" Precision="3" />
+          <Property Name="TotalPitStops" Type="Decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="MemberID" />
+          </Key>
+          <Property Name="MemberID" Type="Int32" Nullable="false" />
+          <Property Name="MemberName" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="TeamID" Type="Int32" />
+          <Property Name="ProfilePhoto" Type="Boolean" />
+          <Property Name="ContactNo" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PitStop">
+          <Key>
+            <PropertyRef Name="StopID" />
+          </Key>
+          <Property Name="StopID" Type="Int32" Nullable="false" />
+          <Property Name="EventID" Type="Int32" Nullable="false" />
+          <Property Name="StopName" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="StopOrder" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Location" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="StaffID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="StaffDetali">
+          <Key>
+            <PropertyRef Name="StaffID" />
+          </Key>
+          <Property Name="StaffID" Type="Int32" Nullable="false" />
+          <Property Name="StaffCode" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="StaffName" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TaskDetail">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="EventID" Type="Int32" />
+          <Property Name="StopID" Type="Int32" />
+          <Property Name="TeamID" Type="Int32" />
+          <Property Name="TaskStartTime" Type="DateTime" Precision="3" />
+          <Property Name="TaskEndTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="TeamMaster">
+          <Key>
+            <PropertyRef Name="TeamID" />
+          </Key>
+          <Property Name="TeamID" Type="Int32" Nullable="false" />
+          <Property Name="TeamName" Type="String" MaxLength="254" FixedLength="false" Unicode="true" />
+          <Property Name="EventID" Type="Int32" />
+          <Property Name="StaffID" Type="Int32" />
+        </EntityType>
+        <EntityContainer Name="AmazingRaceContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="PitStops" EntityType="Self.PitStop" />
+          <EntitySet Name="StaffDetalis" EntityType="Self.StaffDetali" />
+          <EntitySet Name="TaskDetails" EntityType="Self.TaskDetail" />
+          <EntitySet Name="TeamMasters" EntityType="Self.TeamMaster" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AmazingRaceModelStoreContainer" CdmEntityContainer="AmazingRaceContext">
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="AmazingRaceModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="EventStart" ColumnName="EventStart" />
+                <ScalarProperty Name="EventEnd" ColumnName="EventEnd" />
+                <ScalarProperty Name="TotalPitStops" ColumnName="TotalPitStops" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="AmazingRaceModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
+                <ScalarProperty Name="MemberName" ColumnName="MemberName" />
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="ProfilePhoto" ColumnName="ProfilePhoto" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PitStops">
+            <EntityTypeMapping TypeName="AmazingRaceModel.PitStop">
+              <MappingFragment StoreEntitySet="PitStop">
+                <ScalarProperty Name="StopID" ColumnName="StopID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="StopName" ColumnName="StopName" />
+                <ScalarProperty Name="StopOrder" ColumnName="StopOrder" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StaffDetalis">
+            <EntityTypeMapping TypeName="AmazingRaceModel.StaffDetali">
+              <MappingFragment StoreEntitySet="StaffDetalis">
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+                <ScalarProperty Name="StaffCode" ColumnName="StaffCode" />
+                <ScalarProperty Name="StaffName" ColumnName="StaffName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskDetails">
+            <EntityTypeMapping TypeName="AmazingRaceModel.TaskDetail">
+              <MappingFragment StoreEntitySet="TaskDetails">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="StopID" ColumnName="StopID" />
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="TaskStartTime" ColumnName="TaskStartTime" />
+                <ScalarProperty Name="TaskEndTime" ColumnName="TaskEndTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TeamMasters">
+            <EntityTypeMapping TypeName="AmazingRaceModel.TeamMaster">
+              <MappingFragment StoreEntitySet="TeamMaster">
+                <ScalarProperty Name="TeamID" ColumnName="TeamID" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="StaffID" ColumnName="StaffID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
