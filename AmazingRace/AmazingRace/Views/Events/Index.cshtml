@@ -1,0 +1,75 @@
+﻿@model IEnumerable<AmazingRace.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EventName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Country)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EventEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPitStops)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalTeams)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Country)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EventEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPitStops)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalTeams)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.EventID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.EventID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.EventID })
+        </td>
+    </tr>
+}
+
+</table>
