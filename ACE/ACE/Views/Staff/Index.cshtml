@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ACE.Models.Staff>
+
+@{ViewBag.Title = "Staff List";}
+
+<h2>Staff List</h2>
+<p>@Html.ActionLink("Create New", "Create")</p>
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.StaffCode)</th>
+        <th>@Html.DisplayNameFor(model => model.StaffName)</th>
+        <th>@Html.DisplayNameFor(model => model.TeamStaff)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.StaffCode)</td>
+            <td>@Html.DisplayFor(modelItem => item.StaffName)</td>
+            <td>@Html.DisplayFor(modelItem => item.TeamStaff)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.StaffID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.StaffID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.StaffID })
+            </td>
+        </tr>
+    }
+</table>

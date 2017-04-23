@@ -1,0 +1,88 @@
+﻿@model ACE.Models.Event
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EventName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventTotalPitStops)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventTotalPitStops)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EventTotalTeams)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EventTotalTeams)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

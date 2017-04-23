@@ -1,0 +1,56 @@
+﻿@model ACE.ViewModels.EventIndexData
+
+@{ViewBag.Title = "Team List";}
+
+<h2>Team List</h2>
+<p>@Html.ActionLink("Create New", "Create")</p>
+<table class="table">
+    <tr>
+        <th>Event Name</th>
+        <th>Team Name</th>
+    </tr>
+
+    @foreach (var item in Model.Teams)
+    {
+        string selectedRow = "";
+        if (item.TeamID == ViewBag.TeamID)
+        {
+            selectedRow = "success";
+        }
+        <tr class="@selectedRow">
+            <td>@Html.DisplayFor(modelItem => item.Event.EventName)</td>
+            <td>@Html.DisplayFor(modelItem => item.TeamName)</td>
+            <td>
+                @Html.ActionLink("Select", "Index", new { id = item.TeamID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.TeamID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TeamID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.TeamID })
+            </td>
+        </tr>
+    }
+</table>
+
+@if (Model.Members != null)
+{
+    <h3>Members Enrolled</h3>
+    <table class="table">
+        <tr>
+            <th>Participant Name</th>
+            <th>Contact No</th>
+            <th>Email</th>
+        </tr>
+        @foreach (var item in Model.Members)
+        {
+            string selectedRow = "";
+            if (item.MemberID == ViewBag.MemberID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>@item.MemberName</td>
+                <td>@item.MemberContact</td>
+                <td>@item.MemberEmail</td>
+            </tr>
+        }
+    </table>
+}

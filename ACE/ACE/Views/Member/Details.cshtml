@@ -1,0 +1,58 @@
+﻿@model ACE.Models.Member
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Member</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Team.TeamName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Team.TeamName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberContact)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberContact)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MemberPhoto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MemberPhoto)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MemberID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
