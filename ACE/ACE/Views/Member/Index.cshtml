@@ -44,7 +44,11 @@
             @Html.DisplayFor(modelItem => item.MemberEmail)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.MemberPhoto)
+             @{ 
+                var base64 = Convert.ToBase64String(item.MemberPhoto);
+                var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+            }
+            <img src="@imgsrc" width="50" height="50" >
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.MemberID }) |
