@@ -5,44 +5,14 @@
 <div class="jumbotron">
     <h1>Amazing Race</h1>
 </div>
-
-<div class="navbar navbar-default">
-    <div class="container">
-    </div>
-</div>
-
-<div class="">
-    Pit Stop Location
-    <div id="map" style="width:400px;height:400px;background:yellow"></div>
-</div>
-
-<style>
-    .alignMap {
-        position: absolute;
-        top: 190px;
-        left: 750px;
-        right: 0px;
-        width: 300px;
-        padding: 10px;
-    }
-
-    #map {
-        height: 100%;
-    }
-</style>
-
-
-<script>
-    function myMap() {
-        var mapOptions = {
-            center: new google.maps.LatLng(1.29, 103.85),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.NORMAL
-        }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    }
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9Ys2MzFJI-SyPozsev1gNUJapRLsGqOE&callback=myMap"></script>
-
-
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Events</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active">@Html.ActionLink("Live Event", "LiveEventIndex", "Home")</li>
+                <li><a href="#">Upcoming Event</a></li>
+            </ul>
+        </div>
+    </nav>
