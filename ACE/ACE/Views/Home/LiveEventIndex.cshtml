@@ -1,108 +1,17 @@
-﻿@model ACE.ViewModels.EventIndexData
-
-@{
-    ViewBag.Title = "Home Page";
+﻿@{
+    ViewBag.Title = "Real-time Location Tracking";
 }
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-    <nav class="navbar navbar-default">
-           <div class="container-fluid">
-              
-               <ul class="nav navbar-nav">
-                   <li><a href="#liveEventHeader">Live Event </a> </li>
-                   <li><a href="#upcomingEvent">Upcoming Event </a> </li>
-               </ul>
-           </div>
-       </nav>
-      
-    <div class="w3-content w3-section" style="left:200px">
-        <img class="slides" src="~/Images/ar1.jpg" width="1000" height="330">
-        <img class="slides" src="~/Images/ar2.jpg" width="1000" height="330"/>
-        <img class="slides" src="~/Images/ar3.jpg" width="1000" height="330"/>
-        <img class="slides" src="~/Images/ar4.jpg" width="1000" height="330"/>
-    </div>
-
-   <table class="table">
-    <tr>
-        <th><h3 id="liveEventHeader">Live Event</h3></th>
-        <th>@Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control" })</th>
-        <th>@Html.ActionLink("Simulate Event", "simulateEvent", "Home", new { @class= "btn btn-info", @id="simulate"})</th>
-    </tr>
-    </table>
-    <div class="row" style="margin-top: 20px;">
-        <div class="map" id="mapDiv"></div>
-    </div> 
-    <br />
-    <div id="container" style="white-space:nowrap">
-        <div id="image" style="display:inline;">
-            <img src="http://maps.google.com/mapfiles/ms/icons/red.png" /> Team &nbsp;
-            <img src="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png" /> PitStop &nbsp;
-            <img src="http://maps.google.com/mapfiles/ms/icons/blue.png" /> Staff
-        </div>
-    </div>​
-    <br />
-    <table class="table" id="leaderboard">
-        <tr class="success">
-            <th>Team Position</th>
-            <th>Team Name</th>
-            <th>Time(hh:mm:ss)</th>
-            <th>Pit Stop Cleared</th>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Team1</td>
-            <td>00:00:00</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Team2</td>
-            <td>00:00:00</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Team3</td>
-            <td>00:00:00</td>
-            <td>0</td>
-        </tr>
-
-    </table>
-
-    <h3 id="upcomingEvent">Upcoming Events</h3>
-
-    <table class="table">
-        <tr class="success">
-            <th>Event Name</th>
-            <th>Event StartDate </th>
-        </tr>
-        @{
-            DateTime systemDate = DateTime.Now.Date;
-            var currentDate = Model.Events.Where(i => i.EventStartDate > systemDate);
-        }
-        @foreach (var item in currentDate)
-        {
-            <tr class="">
-                <td>@Html.DisplayFor(modelItem => item.EventName)</td>
-                <td>@Html.DisplayFor(modelItem => item.EventStartDate)</td>
-            </tr>
-        }
-    </table>
-    
-    <style type="text/css">
-        .map {
-            border: #555555 2px solid;
-            position: relative;
-            height: 490px;
-        }
-        .slides {
-            display: none;
-        }
-        tr:hover {
-            background-color: #f5f5f5
-        }
-    </style>
+<style type="text/css">
+    .map {
+        border: #555555 2px solid;
+        position: relative;
+        height: 490px;
+    }
+</style>
+<h2>@ViewBag.Title</h2>
+<div class="row" style="margin-top: 20px;">
+    <div class="map" id="mapDiv"></div>
+</div>
 
 @section scripts
 {
@@ -124,8 +33,6 @@
             var hashMarkers = {};
             var hashMarkerColor = {};
             var hub;
-            var myIndex = 0;
-            carousel();
             //setCurrentLocation();
             setupSignalR();
 
@@ -153,11 +60,6 @@
                 var location = new google.maps.LatLng(lt, lg);
                 var pitStopIcon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
                 var staffIcon = 'http://maps.google.com/mapfiles/ms/icons/blue.png';
-                if (title == 'Staff') {
-                    if (@User.Identity.IsAuthenticated.ToString().ToLower() == false) {
-                        return;
-                    }
-                }
                 marker = new google.maps.Marker({
                     'position': location,
                     'map': map,
@@ -194,6 +96,7 @@
                 }
                 addInfoWindow(marker, name + ' time: ' + time);
                 marker.setMap(map);
+                //map.panTo(location);
             }
 
             function setCurrentLocation() {
@@ -226,30 +129,10 @@
                 hub = connection.createHubProxy('mappingHub');
                 hub.on('locationReceived', function (l) {
                     drawPointOnMap(l.Latitude, l.Longitude, l.Title, l.Number, l.Time);
-                    updateLeaderboard(l.Title, l.Number, l.Time, l.Position, l.Pitstop)
                 });
                 connection.start(function () {
                     console.log('connection started');
                 });
-            }
-
-            function updateLeaderboard(title, num, time, position, pitstop) {
-                var leaderboard = document.getElementById('leaderboard');
-                leaderboard.rows[position].cells[1].innerHTML = title + num;
-                leaderboard.rows[position].cells[2].innerHTML = time;
-                leaderboard.rows[position].cells[3].innerHTML = pitstop;
-            }
-
-            function carousel() {
-                var i;
-                var x = document.getElementsByClassName("slides");
-                for (i = 0; i < x.length; i++) {
-                    x[i].style.display = "none";
-                }
-                myIndex++;
-                if (myIndex > x.length) { myIndex = 1 }
-                x[myIndex - 1].style.display = "block";
-                setTimeout(carousel, 5000); // Change image every 5 seconds
             }
         }
     </script>

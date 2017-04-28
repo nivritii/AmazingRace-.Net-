@@ -360,6 +360,7 @@
     <Content Include="Views\PitStop\Details.cshtml" />
     <Content Include="Views\PitStop\Edit.cshtml" />
     <Content Include="Views\PitStop\Index.cshtml" />
+    <Content Include="Views\Home\LiveEventIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
