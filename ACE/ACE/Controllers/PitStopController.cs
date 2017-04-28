@@ -50,7 +50,8 @@ namespace ACE.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PitStopID,EventID,PitStopName,PitStopOrder,PitStopLocation,StaffID")] PitStop pitStop)
+        public ActionResult Create([Bind(Include = "PitStopID,EventID,PitStopName,PitStopOrder,PitStopLocation,StaffID")]
+                                    PitStop pitStop)
         {
             if (ModelState.IsValid)
             {
@@ -60,7 +61,9 @@ namespace ACE.Controllers
             }
 
             ViewBag.EventID = new SelectList(db.Events, "EventID", "EventName", pitStop.EventID);
+            ViewBag.EventTotalPitStops = new SelectList(db.Events, "EventID", "EventTotalPitStops", pitStop.EventID);
             ViewBag.StaffID = new SelectList(db.Staffs, "StaffID", "StaffCode", pitStop.StaffID);
+
             return View(pitStop);
         }
 

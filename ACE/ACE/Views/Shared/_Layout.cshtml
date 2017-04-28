@@ -3,56 +3,102 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Amazing Race</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("ACE", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+    <div class="container containerHeader">
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar2">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="~/Home">
+                        <img src="~/Images/5.jpg" alt="Amazing Race" id="logo">
+                    </a>
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                <div id="navbar2" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
                         <li>@Html.ActionLink("Event", "Index", "Event")</li>
                         <li>@Html.ActionLink("Team", "Index", "Team")</li>
                         <li>@Html.ActionLink("Member", "Index", "Member")</li>
-                        <li>@Html.ActionLink("Pit Stops", "Index", "PitStop")</li>
                         <li>@Html.ActionLink("Staff", "Index", "Staff")</li>
+                        <li>@Html.ActionLink("Pit Stops", "Index", "PitStop")</li>
                     </ul>
                     @Html.Partial("_LoginPartial")
                 </div>
-            }
-            else
-            {
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                    @Html.Partial("_LoginPartial")
-                </div>
-            }
-        </div>
-    </div>
+                }
+                else
+                {
+                    <div class="navbar-collapse collapse">
+                        <ul class="hide">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                }
+                <!--/.nav-collapse -->
+            </div>
+            <!--/.container-fluid -->
+        </nav>
+    </div>    
+      <style>
+        .hide{
+            display : none;
+        }
+          .containerHeader .navbar-brand > img {
+              padding: 7px 15px;
+          }
+                .navbar-brand {
+                 padding: 0px;
+                    }
+        .navbar-brand>img {
+            height: 100%;
+            padding: 15px;
+            width: auto;
+         }
+
+          .containerHeader .navbar-brand > img {
+              padding: 7px 15px;
+          }
+
+        /* CSS Transform Align Navbar Brand Text ... This could also be achieved with table / table-cells */
+        .navbar-alignit .navbar-header {
+	    -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        height: 50px;
+        }
+        
+        .navbar-alignit .navbar-brand {
+	        top: 50%;
+	        display: block;
+	        position: relative;
+	        height: auto;
+	        transform: translate(0,-50%);
+	        margin-right: 15px;
+            margin-left: 15px;
+         }
+
+        body {
+            font-family: "Lato";
+        }
+    </style>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - ACE TECHNOLOGIES</p>
         </footer>
     </div>
 

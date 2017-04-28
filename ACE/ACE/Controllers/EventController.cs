@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -21,7 +22,7 @@ namespace ACE.Controllers
         {
             var viewModel = new EventIndexData();
             viewModel.Events = db.Events
-                .Include(i => i.Teams);
+                .Include(i => i.Teams).ToList();
             if (id != null)
             {
                 ViewBag.EventID = id.Value;
@@ -92,10 +93,11 @@ namespace ACE.Controllers
         // POST: Event/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "EventID,EventName,EventDesc,EventCountry,EventCity,EventStartDate,EventEndDate,EventTotalPitStops,EventTotalTeams")] Event @event)
         {
+            
             if (ModelState.IsValid)
             {
                 db.Entry(@event).State = EntityState.Modified;
@@ -104,6 +106,8 @@ namespace ACE.Controllers
             }
             return View(@event);
         }
+
+        
 
         // GET: Event/Delete/5
         public ActionResult Delete(int? id)

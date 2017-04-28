@@ -1,48 +1,256 @@
-﻿@{
+﻿@model ACE.ViewModels.EventIndexData
+
+@{
     ViewBag.Title = "Home Page";
 }
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
-<div class="jumbotron">
-    <h1>Amazing Race</h1>
-</div>
-
-<div class="navbar navbar-default">
-    <div class="container">
+    <nav class="navbar navbar-default">
+           <div class="container-fluid">
+              
+               <ul class="nav navbar-nav">
+                   <li><a href="#liveEventHeader">Live Event </a> </li>
+                   <li><a href="#upcomingEvent">Upcoming Event </a> </li>
+               </ul>
+           </div>
+       </nav>
+      
+    <div class="w3-content w3-section" style="left:200px">
+        <img class="slides" src="~/Images/ar1.jpg" width="1000" height="330">
+        <img class="slides" src="~/Images/ar2.jpg" width="1000" height="330"/>
+        <img class="slides" src="~/Images/ar3.jpg" width="1000" height="330"/>
+        <img class="slides" src="~/Images/ar4.jpg" width="1000" height="330"/>
     </div>
-</div>
 
-<div class="">
-    Pit Stop Location
-    <div id="map" style="width:400px;height:400px;background:yellow"></div>
-</div>
+   <table class="table">
+    <tr>
+        <th><h3 id="liveEventHeader">Live Event</h3></th>
+        <th>@Html.DropDownList("EventID", null, htmlAttributes: new { @class = "form-control" })</th>
+        <th>@Html.ActionLink("Simulate Event", "simulateEvent", "Home", new { @class= "btn btn-info", @id="simulate"})</th>
+    </tr>
+    </table>
+    <div class="row" style="margin-top: 20px;">
+        <div class="map" id="mapDiv"></div>
+    </div> 
+    <br />
+    <div id="container" style="white-space:nowrap">
+        <div id="image" style="display:inline;">
+            <img src="http://maps.google.com/mapfiles/ms/icons/red.png" /> Team &nbsp;
+            <img src="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png" /> PitStop &nbsp;
+            <img src="http://maps.google.com/mapfiles/ms/icons/blue.png" /> Staff
+        </div>
+    </div>​
+    <br />
+    <table class="table" id="leaderboard">
+        <tr class="success">
+            <th>Team Position</th>
+            <th>Team Name</th>
+            <th>Time(hh:mm:ss)</th>
+            <th>Pit Stop Cleared</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Team1</td>
+            <td>00:00:00</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Team2</td>
+            <td>00:00:00</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Team3</td>
+            <td>00:00:00</td>
+            <td>0</td>
+        </tr>
 
-<style>
-    .alignMap {
-        position: absolute;
-        top: 190px;
-        left: 750px;
-        right: 0px;
-        width: 300px;
-        padding: 10px;
-    }
+    </table>
 
-    #map {
-        height: 100%;
-    }
-</style>
+    <h3 id="upcomingEvent">Upcoming Events</h3>
 
-
-<script>
-    function myMap() {
-        var mapOptions = {
-            center: new google.maps.LatLng(1.29, 103.85),
-            zoom: 15,
-            mapTypeId: google.maps.MapTypeId.NORMAL
+    <table class="table">
+        <tr class="success">
+            <th>Event Name</th>
+            <th>Event StartDate </th>
+        </tr>
+        @{
+            DateTime systemDate = DateTime.Now.Date;
+            var currentDate = Model.Events.Where(i => i.EventStartDate > systemDate);
         }
-        var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    }
-</script>
+        @foreach (var item in currentDate)
+        {
+            <tr class="">
+                <td>@Html.DisplayFor(modelItem => item.EventName)</td>
+                <td>@Html.DisplayFor(modelItem => item.EventStartDate)</td>
+            </tr>
+        }
+    </table>
+    
+    <style type="text/css">
+        .map {
+            border: #555555 2px solid;
+            position: relative;
+            height: 490px;
+        }
+        .slides {
+            display: none;
+        }
+        tr:hover {
+            background-color: #f5f5f5
+        }
+    </style>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9Ys2MzFJI-SyPozsev1gNUJapRLsGqOE&callback=myMap"></script>
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9Ys2MzFJI-SyPozsev1gNUJapRLsGqOE"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            myMap();
+        });
+        function myMap() {
+            var mapOptions = {
+                center: new google.maps.LatLng(1.281766, 103.818346),
+                zoom: 14,
+                mapTypeId: google.maps.MapTypeId.G_NORMAL_MAP
+            }
+            var map = new google.maps.Map(document.getElementById("mapDiv"), mapOptions);
+            var marker;
+            var gmarkers = [];
+            var hashMarkers = {};
+            var hashMarkerColor = {};
+            var hub;
+            var myIndex = 0;
+            carousel();
+            //setCurrentLocation();
+            setupSignalR();
 
+            function drawPolyLine(name) {
+                if (hashMarkers[name]) {
+                    var linepath = [];
+                    hashMarkers[name].forEach(function (hmarker) {
+                        linepath.push(hmarker.getPosition());
+                    });
+                    var polyLine = new google.maps.Polyline({
+                        path: linepath,
+                        geodesic: true,
+                        strokeColor: hashMarkerColor[name],
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2
+                    });
+                    polyLine.setMap(map);
+                }
+            }
 
+            function drawPointOnMap(lt, lg, title, num, time) {
+                var name = title + num;
+                var colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#008000', '#00FFFF',
+                    '#000080', '#808000', '#9B59B6', '#3498DB', '#1ABC9C', '#FF00FF', '#D35400'];
+                var location = new google.maps.LatLng(lt, lg);
+                var pitStopIcon = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                var staffIcon = 'http://maps.google.com/mapfiles/ms/icons/blue.png';
+                if (title == 'Staff') {
+                    if (@User.Identity.IsAuthenticated.ToString().ToLower() == false) {
+                        return;
+                    }
+                }
+                marker = new google.maps.Marker({
+                    'position': location,
+                    'map': map,
+                    'label': num,
+                    'title': name
+                });
+                if (title == 'Team') {
+                    if (hashMarkers[name]) {
+                        hashMarkers[name].push(marker);
+                    } else {
+                        hashMarkers[name] = new Array();
+                        hashMarkerColor[name] = colors[Math.floor(Math.random() * colors.length)];
+                        hashMarkers[name].push(marker);
+                    }
+                    drawPolyLine(name);
+                }
+                var flag = false;
+                if (gmarkers != null) {
+                    gmarkers.forEach(function (gmarker) {
+                        if (gmarker.title == marker.title) {
+                            gmarker.setMap(null);
+                            flag = true;
+                            gmarkers.splice(gmarkers.indexOf(gmarker), 1, marker);
+                        }
+                    });
+                    if (!flag) {
+                        gmarkers.push(marker);
+                    }
+                }
+                if (title == 'Staff') {
+                    marker.setIcon(staffIcon);
+                } else if (title == 'PitStop') {
+                    marker.setIcon(pitStopIcon);
+                }
+                addInfoWindow(marker, name + ' time: ' + time);
+                marker.setMap(map);
+            }
+
+            function setCurrentLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        map.setCenter(pos);
+                    }, function () {
+                        console.log('Error: The Geolocation service failed.');
+                    });
+                } else {
+                    console.log('Error: Your browser doesn\'t support geolocation.');
+                }
+            }
+
+            function addInfoWindow(marker, message) {
+                marker.addListener('click', function () {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: message
+                    });
+                    infoWindow.open(map, marker);
+                });
+            }
+
+            function setupSignalR() {
+                connection = $.hubConnection();
+                hub = connection.createHubProxy('mappingHub');
+                hub.on('locationReceived', function (l) {
+                    drawPointOnMap(l.Latitude, l.Longitude, l.Title, l.Number, l.Time);
+                    updateLeaderboard(l.Title, l.Number, l.Time, l.Position, l.Pitstop)
+                });
+                connection.start(function () {
+                    console.log('connection started');
+                });
+            }
+
+            function updateLeaderboard(title, num, time, position, pitstop) {
+                var leaderboard = document.getElementById('leaderboard');
+                leaderboard.rows[position].cells[1].innerHTML = title + num;
+                leaderboard.rows[position].cells[2].innerHTML = time;
+                leaderboard.rows[position].cells[3].innerHTML = pitstop;
+            }
+
+            function carousel() {
+                var i;
+                var x = document.getElementsByClassName("slides");
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = "none";
+                }
+                myIndex++;
+                if (myIndex > x.length) { myIndex = 1 }
+                x[myIndex - 1].style.display = "block";
+                setTimeout(carousel, 5000); // Change image every 5 seconds
+            }
+        }
+    </script>
+}

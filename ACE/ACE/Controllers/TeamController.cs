@@ -21,7 +21,7 @@ namespace ACE.Controllers
         {
             var viewModel = new EventIndexData();
             viewModel.Teams = db.Teams
-                .Include(i => i.Members);
+                .Include(i => i.Members).ToList();
             if (id != null)
             {
                 ViewBag.TeamID = id.Value;

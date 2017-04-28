@@ -20,6 +20,8 @@ namespace ACE.DAL
         public DbSet<PitStop> PitStops { get; set; }
         public DbSet<Staff> Staffs { get; set; }
 
+        public DbSet<Location> Locations { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

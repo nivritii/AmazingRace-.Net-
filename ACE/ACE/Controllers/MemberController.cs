@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -49,10 +49,16 @@ namespace ACE.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MemberID,MemberName,TeamID,MemberContact,MemberEmail,MemberPhoto")] Member member)
+        public ActionResult CreateMember([Bind(Include = "MemberID,MemberName,TeamID,MemberContact,MemberEmail,MemberPhoto")] Member member, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    member.MemberPhoto = new byte[image.ContentLength];
+                    image.InputStream.Read(member.MemberPhoto, 0, image.ContentLength);
+
+                }
                 db.Members.Add(member);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -83,10 +89,16 @@ namespace ACE.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MemberID,MemberName,TeamID,MemberContact,MemberEmail,MemberPhoto")] Member member)
+        public ActionResult EditMember([Bind(Include = "MemberID,MemberName,TeamID,MemberContact,MemberEmail,MemberPhoto")] Member member, HttpPostedFileBase image)
         {
             if (ModelState.IsValid)
             {
+                if (image != null)
+                {
+                    member.MemberPhoto = new byte[image.ContentLength];
+                    image.InputStream.Read(member.MemberPhoto, 0, image.ContentLength);
+
+                }
                 db.Entry(member).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

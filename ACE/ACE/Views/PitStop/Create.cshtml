@@ -4,14 +4,13 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>Create PitStop</h2>
 
     @using (Html.BeginForm())
     {
         @Html.AntiForgeryToken()
 
         <div class="form-horizontal">
-            <h4>PitStop</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
@@ -54,21 +53,17 @@
             </div>
 
             <div class="alignMap">
-                <h4> Set Pit Stop Location here!</h4><br />
-                <div id="map" style="width:300px;height:300px;background:yellow"></div>
+                <h4> Set Pit Stop Location here!</h4>
+                <div id="map" style="width:500px;height:330px;background:white"></div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                    <input type="submit" value="Create" class="btn btn-info" />
                 </div>
             </div>
         </div>
-
-
-
     }
-
 
     <div>
         @Html.ActionLink("Back to List", "Index")
@@ -77,8 +72,8 @@
     <style>
     .alignMap {
         position: absolute;
-        top: 150px;
-        left: 750px;
+        top: 215px;
+        left: 580px;
         right: 0px;
         width: 300px;
         padding: 10px;
@@ -92,10 +87,10 @@
 
 <script>
     function myMap() {
-        var latlng = new google.maps.LatLng(1.29, 103.85);
+        var latlng = new google.maps.LatLng(1.281766, 103.818346);
         var mapOptions = {
             center: latlng,
-            zoom: 15,
+            zoom: 13,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);

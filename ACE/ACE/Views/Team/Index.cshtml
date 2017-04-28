@@ -5,9 +5,10 @@
 <h2>Team List</h2>
 <p>@Html.ActionLink("Create New", "Create")</p>
 <table class="table">
-    <tr>
+    <tr class="success">
         <th>Event Name</th>
         <th>Team Name</th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model.Teams)
@@ -35,9 +36,10 @@
     <h3>Members Enrolled</h3>
     <table class="table">
         <tr>
-            <th>Participant Name</th>
+            <th>Member Name</th>
             <th>Contact No</th>
             <th>Email</th>
+            <th>Member Photo</th>
         </tr>
         @foreach (var item in Model.Members)
         {
@@ -50,6 +52,13 @@
                 <td>@item.MemberName</td>
                 <td>@item.MemberContact</td>
                 <td>@item.MemberEmail</td>
+                <td>
+                    @{
+                    var base64 = Convert.ToBase64String(item.MemberPhoto);
+                    var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
+                }
+                <img src="@imgsrc" width="50" height="50">
+            </td>
             </tr>
         }
     </table>

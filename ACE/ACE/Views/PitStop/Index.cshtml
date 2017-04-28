@@ -2,15 +2,16 @@
 
 @{ViewBag.Title = "Index";}
 
-<h2>Index</h2>
+<h2>PitStop List</h2>
 <p>@Html.ActionLink("Create New", "Create")</p>
 <table class="table">
-    <tr>
+    <tr class="success">
         <th>@Html.DisplayNameFor(model => model.Event.EventName)</th>
         <th>@Html.DisplayNameFor(model => model.Staff.StaffCode)</th>
         <th>@Html.DisplayNameFor(model => model.PitStopName)</th>
         <th>@Html.DisplayNameFor(model => model.PitStopOrder)</th>
         <th>@Html.DisplayNameFor(model => model.PitStopLocation)</th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model)
