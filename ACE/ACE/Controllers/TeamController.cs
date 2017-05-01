@@ -11,7 +11,8 @@ using ACE.Models;
 using ACE.ViewModels;
 
 namespace ACE.Controllers
-{
+{  
+    [Authorize]
     public class TeamController : Controller
     {
         private EventContext db = new EventContext();

@@ -11,6 +11,7 @@ using ACE.Models;
 
 namespace ACE.Controllers
 {
+    [Authorize]
     public class PitStopController : Controller
     {
         private EventContext db = new EventContext();

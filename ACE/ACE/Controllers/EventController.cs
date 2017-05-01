@@ -13,6 +13,7 @@ using ACE.ViewModels;
 
 namespace ACE.Controllers
 {
+    [Authorize]
     public class EventController : Controller
     {
         private EventContext db = new EventContext();

@@ -43,6 +43,31 @@
     }
 </table>
 
+@if (Model.PitStops != null)
+{
+    <h3>Pit Stops</h3>
+    <table class="table">
+        <tr>
+            <th>Pit Stop No</th>
+            <th>Pit Stop Name</th>
+            <th>Pit Stop Location</th>
+        </tr>
+        @foreach (var item in Model.PitStops)
+        {
+            string selectedRow = "";
+            if (item.PitStopID == ViewBag.PitStopID)
+            {
+                selectedRow = "success";
+            }
+            <tr class="@selectedRow">
+                <td>@item.PitStopOrder</td>
+                <td>@item.PitStopName</td>
+                <td>@item.PitStopLocation</td>
+            </tr>
+        }
+    </table>
+}
+
 @if (Model.Teams != null)
 {
     <h3>Teams Enrolled</h3>
@@ -91,31 +116,6 @@
                     var imgsrc = string.Format("data:image/gif;base64,{0}", base64);
                 }
                 <img src="@imgsrc" width="50" height="50"></td>
-            </tr>
-        }
-    </table>
-}
-
-@if (Model.PitStops != null)
- {
-    <h3>Pit Stops</h3>
-    <table class="table">
-        <tr>
-            <th>Pit Stop No</th>
-            <th>Pit Stop Name</th>
-            <th>Pit Stop Location</th>
-        </tr>
-        @foreach (var item in Model.PitStops)
-        {
-            string selectedRow = "";
-            if (item.PitStopID == ViewBag.PitStopID)
-            {
-                selectedRow = "success";
-            }
-            <tr class="@selectedRow">
-                <td>@item.PitStopOrder</td>
-                <td>@item.PitStopName</td>
-                <td>@item.PitStopLocation</td>
             </tr>
         }
     </table>
